@@ -9,7 +9,6 @@ import {
 } from "./styles";
 import UrlPreview from "./UrlPreview/UrlPreview";
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
-import { ReactTagify } from "react-tagify";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import Comment from "./Comment/Comment";
@@ -28,7 +27,7 @@ export default function Post({ data, load }) {
   function isAuthenticatedUserPost() {
     return JSON.parse(localStorage.user).username === username;
   }
-  
+
   let post_id = id;
 
   const [isLiked, setIsLiked] = useState(false);
@@ -43,7 +42,6 @@ export default function Post({ data, load }) {
       .then((e) => setIsLiked(e.data.liked))
       .catch((e) => console.log(e.response.data.message));
   }, []);
-
 
   function likePost() {
     if (isLiked) {
@@ -93,7 +91,7 @@ export default function Post({ data, load }) {
       </LeftContainer>
       <RightContainer>
         <Username>{username}</Username>
-        <Comment editModeState={[editMode, setEditMode]} text={text}  id={id} />
+        <Comment editModeState={[editMode, setEditMode]} text={text} id={id} />
         <UrlPreview data={{ link, title, image, description }} />
       </RightContainer>
       {isAuthenticatedUserPost() ? (
