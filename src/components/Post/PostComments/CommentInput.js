@@ -4,9 +4,9 @@ import { FiSend } from "react-icons/fi";
 import URL_back from "../../../utils/URL_back";
 import axios from "axios";
 
-export default function CommentInput({ id, setComments}) {
+export default function CommentInput({ id, setComments }) {
   const [inputValue, setInputValue] = useState("");
-  const [newComment, setNewComment] = useState(false)
+  const [newComment, setNewComment] = useState(false);
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -15,17 +15,22 @@ export default function CommentInput({ id, setComments}) {
   };
 
   const submitComment = () => {
-    const promise = axios.post(URL_back + "comments", {
-      post_id: id,
-      text: inputValue,
-      author_id: JSON.parse(localStorage.getItem("user")).id,
-    },{
+    const promise = axios.post(
+      URL_back + "comments",
+      {
+        post_id: id,
+        text: inputValue,
+        author_id: JSON.parse(localStorage.getItem("user")).id,
+      },
+      {
         headers: {
           Authorization: `Bearer ${JSON.parse(localStorage.user).token}`,
         },
-      });
+      }
+    );
     promise.then((res) => {
-      setNewComment(true)
+      setNewComment(true);
+      setInputValue("");
     });
 
     promise.catch((err) => {
@@ -34,24 +39,22 @@ export default function CommentInput({ id, setComments}) {
   };
 
   useEffect(() => {
-
-    if(newComment){
+    if (newComment) {
       const promise = axios.get(`${URL_back}posts/${id}/comments`, {
         headers: {
           Authorization: `Bearer ${JSON.parse(localStorage.user).token}`,
         },
       });
-       
-         promise.then((res) => {
-           setComments(res.data)
-         })
-      
-         promise.catch((err) => {
-           alert(err.response.data);
-         }); 
+
+      promise.then((res) => {
+        setComments(res.data);
+      });
+
+      promise.catch((err) => {
+        alert(err.response.data);
+      });
     }
-      
- }, [newComment]);
+  }, [newComment]);
 
   return (
     <PostCommentData>
